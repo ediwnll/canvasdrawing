@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Simple Draw</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Silkscreen&family=Space+Mono:ital@1&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  
+</head>
+<body>
+    <div class="layerOne">
+        <h1 class="title">Simple Draw</h1>
+    </div>
+    <div class="layerTwo">
+        <div class="settings">
+            <input class="colorPicker" type="color" value="#333333" />
+            <button class="colorBtn">Static Color</button>
+            <button class="rainbowBtn">Rainbow Color</button>
+            <button class="eraserBtn">Eraser</button>
+            <button class="clearBtn">Clear</button>
+            <div id="sizeValue" class="size-value"></div>
+            <input class="sizeSlider" type="range" value="16" min="1" max="64" />
+        </div>
+        <canvas id="draw" width="1400" height="800"></canvas>
+    </div>
+
+
+<script src="script.js"></script>
+</body>
+</html>
