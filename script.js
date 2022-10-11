@@ -4,36 +4,38 @@ const DEFAULT_MODE = 'color';
 let currentColor = '333333';
 let currentMode = DEFAULT_MODE;
 let currentSize = DEFAULT_SIZE;
+let hx = 0;
+let sx = 0;
+let lx = 0;
+let color;
+let nh=0;
+let ns =0;
+let nl = 0
 
-const colorPicker = document.querySelector('.colorPicker');
-const colorBtn = document.querySelector('.colorBtn');
-const rainbowBtn = document.querySelector('.rainbowBtn');
-const eraseBtn = document.querySelector('.eraserBtn');
-const clearBtn = document.querySelector('.clearBtn');
-const sizeValue = document.querySelector('#sizeValue');
-const sizeSlider = document.querySelector('.sizeSlider');
+function setCurrentColor(color){
+    currentColor = newColor;
+}
+function setCurrentMode(newMode){
+    activateButton(newMode);
+    currentMode = newMode;
+}
 
-const canvas = document.querySelector('#draw');
-const ctx = canvas.getContext('2d');
-ctx.fillStyle = "white";
-ctx.fillRect(0, 0, canvas.width, canvas.height);
-ctx.strokeStyle = '#BADA55';
-ctx.lineJoin = 'round';
-ctx.lineCap = 'round';
-ctx.lineWidth = 16;
-
-let isDrawing = false;
-let lastX = 0;
-let lastY = 0;
-let hue = 0;
-let direction = true
+function  setCurrentSize(newSize){
+    currentSize = newSize;
+}
 
 
 function getColor() {
     let input = document.querySelector('.colorPicker')
-    let color = HexToHSL(input.value)
+    color = HexToHSL(input.value)
+    hx = color.h;
+    nh = color.h;
+    ns = color.s;
+    sx = color.s;
+    nl = color.l;
+    lx = color.l;
+    
     //console.log('hsl(' + color.h + ', ' + color.s + '%, ' + color.l + '%)')
-    return color;
 }
 
 function HexToHSL(hex) {
@@ -70,13 +72,34 @@ function HexToHSL(hex) {
     return {h, s, l};
 }
 
+const colorPicker = document.querySelector('.colorPicker');
+const colorBtn = document.querySelector('.colorBtn');
+const rainbowBtn = document.querySelector('.rainbowBtn');
+const eraseBtn = document.querySelector('.eraserBtn');
+const clearBtn = document.querySelector('.clearBtn');
+const sizeValue = document.querySelector('#sizeValue');
+const sizeSlider = document.querySelector('.sizeSlider');
+
+const canvas = document.querySelector('#draw');
+const ctx = canvas.getContext('2d');
+ctx.fillStyle = "white";
+ctx.fillRect(0, 0, canvas.width, canvas.height);
+ctx.strokeStyle = '#BADA55';
+ctx.lineJoin = 'round';
+ctx.lineCap = 'round';
+ctx.lineWidth = 16;
+
+let isDrawing = false;
+let lastX = 0;
+let lastY = 0;
+let hue = 0;
+let direction = true
+
+
+
 function draw(e){
     if(!isDrawing) return; //stop function from running if not mouse down
     //console.log(e);
-    let picker = getColor()
-    let hx = picker.h;
-    let sx = picker.s;
-    let lx = picker.l;
     ctx.beginPath(); //start from
     ctx.moveTo(lastX, lastY); //go to
     ctx.lineTo(e.offsetX, e.offsetY);
@@ -86,15 +109,17 @@ function draw(e){
     lastY = e.offsetY;
     [lastX, lastY] = [e.offsetX, e.offsetY];
     if(currentMode === 'rainbow'){
-        ctx.strokeStyle = `hsl(${hx}, ${sx}%, ${lx}%)`;
+        ctx.strokeStyle = `hsl(${hx}, 50%, 50%)`;
         console.log(`hsl(${hx}, ${sx}%, ${lx}%)`)
-        if(picker.h>= 360){
-        picker.h = 0;
+        hx++;
+        if(hx>= 360){
+        hx = 0;
+        
         
     }
     }
     else if(currentMode === 'color'){
-        ctx.strokeStyle = `hsl(${hx}, ${sx}%, ${lx}%)`;
+        ctx.strokeStyle = `hsl(${nh}, ${ns}%, ${nl}%)`;
         //console.log(hue);
     }
     else if(currentMode ==='eraser'){
@@ -127,18 +152,6 @@ sizeSlider.onchange = (e) => changeSize(e.target.value);
 function reloadGrid(){
     ctx.fillStyle = "white";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
-}
-
-function setCurrentColor(newColor){
-    currentColor = newColor;
-}
-function setCurrentMode(newMode){
-    activateButton(newMode);
-    currentMode = newMode;
-}
-
-function  setCurrentSize(newSize){
-    currentSize = newSize;
 }
 
 function activateButton(newMode) {
