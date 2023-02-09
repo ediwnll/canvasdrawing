@@ -18,4 +18,4 @@ Done with HTML and vanilla javascript.
 ## Author
 
 👤 **Ediwnl**
-* GitHub: ediwnl
+* GitHub: https://github.com/ediwnll
